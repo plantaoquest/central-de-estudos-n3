@@ -23,7 +23,8 @@ const href = path => `#${path}`;
 const badge = item => {
   const block = topicById.get(item.topic ?? item.id).block;
   const label = block === 'cirurgico' ? 'HAM V, cirúrgico' : block === 'clinico' ? 'HAM V, clínico' : subjectById.get(item.subject).label;
-  return `<span class="chip subject-${item.subject}">${label}</span><span class="chip">${item.week == null ? 'Semana não indicada' : `Semana ${item.week}`}</span>`;
+  const apg = topicById.get(item.topic ?? item.id).apg;
+  return `<span class="chip subject-${item.subject}">${label}</span><span class="chip">${item.week == null ? 'Semana não indicada' : `Semana ${item.week}${apg ? `, APG ${apg}` : ''}`}</span>`;
 };
 const heading = (title, text = '') => `<div class="section-title"><h1>${title}</h1>${text ? `<p>${text}</p>` : ''}</div>`;
 const metric = (title, value, label) => `<div class="metric"><small>${title}</small><strong>${value}</strong><span>${label}</span></div>`;
@@ -239,6 +240,7 @@ function topicPage(topic) {
   return `<a href="#plano" class="back">← Meu checklist</a>
     <div class="question-meta">${badge(topic)}${topic.archived ? '<span class="chip">Arquivo</span>' : ''}</div>
     ${heading(esc(topic.title))}
+    ${topic.objectives?.length ? `<section class="panel n3-objectives"><h2>Objetivos da APG S${topic.week} ${esc(topic.apg)}</h2><ol>${topic.objectives.map(o => `<li>${esc(o)}</li>`).join('')}</ol></section>` : ''}
     <section class="panel n3-reading">${(topic.sections ?? []).map((section, index) => `
       <h2>${esc(section.title)}</h2><p>${markText(section.text, `topic-${topic.id}-${index}`)}</p>`).join('')}
       ${topic.memorize?.length ? `<h2>O que memorizar</h2><ul class="n3-memo">${topic.memorize.map((m, i) => `<li>${markText(m, `topic-${topic.id}-m${i}`)}</li>`).join('')}</ul>` : ''}
@@ -344,7 +346,7 @@ function questionPanel(question, entry, revealed = false, showContext = true) {
 function questionTag(question) {
   const topic = topicById.get(question.topic);
   const block = topic?.block === 'cirurgico' ? ', cirúrgico' : topic?.block === 'clinico' ? ', clínico' : '';
-  const parts = [`${subjectById.get(question.subject)?.label ?? ''}${block}`, question.week == null ? 'Semana não indicada' : `Semana ${question.week}`, topic?.title].filter(Boolean);
+  const parts = [`${subjectById.get(question.subject)?.label ?? ''}${block}`, question.week == null ? 'Semana não indicada' : `Semana ${question.week}${topic?.apg ? `, APG ${topic.apg}` : ''}`, topic?.title].filter(Boolean);
   return `<p class="q-tag">${parts.map(esc).join(' · ')}</p>`;
 }
 
@@ -414,7 +416,7 @@ function score(attempt, ids = attempt.ids) {
 
 function examPool() {
   return questions.filter(q => hasAnswer(q) && (ui.examSize === 'n3'
-    ? q.advanced
+    ? q.advanced && !topicById.get(q.topic)?.outOfScope
     : inScope(q) && (ui.examOrigin === 'all' || (ui.examOrigin === 'advanced' ? q.advanced : q.origin === ui.examOrigin))));
 }
 
@@ -447,7 +449,9 @@ function examHome() {
 
 function selectByTopic(pool, limit) {
   const byTopic = new Map();
-  for (const q of pool) if (!byTopic.has(q.topic)) byTopic.set(q.topic, q);
+  // Em SOI, a cota é distribuída por APG (S15 P1 … S17 P2); nas demais, por tema.
+  const group = q => { const t = topicById.get(q.topic); return t?.apg ? `${t.week}${t.apg}` : q.topic; };
+  for (const q of pool) if (!byTopic.has(group(q))) byTopic.set(group(q), q);
   const first = [...byTopic.values()].slice(0, limit);
   return [...first, ...pool.filter(q => !first.includes(q)).slice(0, limit - first.length)];
 }
