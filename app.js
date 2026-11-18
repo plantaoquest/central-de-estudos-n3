@@ -222,7 +222,7 @@ function sourceText(sourceId, page) {
   if (!source) return '';
   const label = `${esc(source.title)}${page ? `, p. ${esc(page)}` : ''}`;
   if (!safeLink(source.url)) return label;
-  if (hosted && source.url.startsWith('docs/')) return `${label} <span class="tiny">(arquivo disponível na versão do computador)</span>`;
+  if (hosted && source.url.startsWith('docs/')) return '';
   const url = page && /\.pdf$/i.test(source.url) ? `${source.url}#page=${encodeURIComponent(page)}` : source.url;
   return `<a href="${esc(url)}" target="_blank" rel="noopener">${label}</a>`;
 }
@@ -230,7 +230,7 @@ function sourceText(sourceId, page) {
 function topicPage(topic) {
   if (!topic) return missing();
   const practice = (topic.archived ? archivedQuestions : questions).filter(question => question.topic === topic.id);
-  const sourceList = (topic.sources ?? []).map(source => typeof source === 'string' ? sourceText(source) : sourceText(source.id, source.page));
+  const sourceList = (topic.sources ?? []).map(source => typeof source === 'string' ? sourceText(source) : sourceText(source.id, source.page)).filter(Boolean);
   return `<a href="#plano" class="back">← Meu checklist</a>
     <div class="question-meta">${badge(topic)}${topic.archived ? '<span class="chip">Arquivo</span>' : ''}</div>
     ${heading(esc(topic.title))}
@@ -346,8 +346,8 @@ function correction(question, entry) {
     ${question.comments?.length ? `<h3>Comentário de cada alternativa</h3><ol type="A">${question.comments.map(comment => `<li>${esc(comment)}</li>`).join('')}</ol>` : ''}
     ${question.rubric?.length ? `<h3>Rubrica de autoavaliação</h3><ul>${question.rubric.map(item => `<li>${esc(item)}</li>`).join('')}</ul>` : ''}
     ${question.caveat ? `<p class="n3-caveat">${esc(question.caveat)}</p>` : ''}
-    <p class="tiny">${sourceText(question.source, question.page)}</p>
-    ${(() => { const refs = (question.reviewRefs ?? []).filter(id => sourceById.get(id)?.url !== sourceById.get(question.source)?.url); return refs.length ? `<p class="tiny n3-review-refs">Revisado em 18/11/2026 com: ${refs.map(id => sourceText(id)).join('; ')}</p>` : ''; })()}
+    ${sourceText(question.source, question.page) ? `<p class="tiny">${sourceText(question.source, question.page)}</p>` : ''}
+    ${(() => { const refs = (question.reviewRefs ?? []).filter(id => sourceById.get(id)?.url !== sourceById.get(question.source)?.url); const texts = refs.map(id => sourceText(id)).filter(Boolean); return texts.length ? `<p class="tiny n3-review-refs">Revisado em 18/11/2026 com: ${texts.join('; ')}</p>` : ''; })()}
   </div>`;
 }
 
@@ -526,7 +526,7 @@ function sourcesPage() {
         <li><b>IESC V.</b> Sintomas depressivos e de ansiedade na APS (S15), cuidados paliativos na APS (S16) e organização da RAPS (S17).</li>
         <li><b>Questões.</b> O filtro “Provas anteriores” reúne itens com indicação do caderno. As inéditas difíceis trazem alternativas comentadas, e as novas discursivas têm rubrica de autoavaliação.</li>
       </ul>
-      <ul class="n3-links">${sources.map(source => `<li>${sourceText(source.id)}</li>`).join('')}</ul>
+      <ul class="n3-links">${sources.map(source => sourceText(source.id)).filter(Boolean).map(text => `<li>${text}</li>`).join('')}</ul>
     </section>
     <section class="panel" id="backup"><h2>Backup do progresso</h2>
       <p>Checklist, anotações, marca-texto, alternativas eliminadas e tentativas ficam neste navegador. Use o backup para transferir seu progresso.</p>
