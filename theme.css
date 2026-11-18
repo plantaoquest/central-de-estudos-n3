@@ -359,3 +359,10 @@ dialog { border-radius: var(--r-lg); border: 1px solid var(--hairline); }
 .n3-caveat { border-left: 3px solid var(--warn); background: var(--warn-wash); padding: 10px 14px; border-radius: 0 6px 6px 0; color: var(--ink-2); font-size: 14px; }
 .n3-review-refs { color: var(--muted); }
 .dash-table { min-width: 860px; }
+
+/* simulado: questão confirmada */
+.n3-map .n3-ok { background: var(--ok); border-color: var(--ok); color: #fff; }
+.n3-map .n3-bad { background: var(--error); border-color: var(--error); color: #fff; }
+.n3-map .n3-ok:hover, .n3-map .n3-bad:hover { filter: brightness(1.08); }
+.question-panel > .n3-correction { margin-top: 18px; }
+.exam-top .tag b { margin-left: 5px; font-variant-numeric: tabular-nums; }

@@ -479,14 +479,19 @@ function activeExam() {
       ${attempt.ids.map((qid, index) => {
         const current = index === attempt.index;
         const answer = attempt.entries[qid];
-        return `<button data-jump="${index}" class="${answer?.answer != null ? 'n3-done' : ''}" aria-current="${current ? 'step' : 'false'}" aria-label="Questão ${index + 1}${answer?.flag ? ', marcada para revisar' : ''}">${index + 1}${answer?.flag ? ' ⚑' : ''}</button>`;
+        const state_ = answer?.confirmed && answer.answer != null
+          ? (answer.answer === questionById.get(qid).answer ? 'n3-ok' : 'n3-bad')
+          : answer?.answer != null ? 'n3-done' : '';
+        return `<button data-jump="${index}" class="${state_}" aria-current="${current ? 'step' : 'false'}" aria-label="Questão ${index + 1}${state_ === 'n3-ok' ? ', acertou' : state_ === 'n3-bad' ? ', errou' : ''}${answer?.flag ? ', marcada para revisar' : ''}">${index + 1}${answer?.flag ? ' ⚑' : ''}</button>`;
       }).join('')}</div>
     <section class="question-panel" data-question-id="${question.id}">
-      ${questionPanel(question, entry, false, false)}
+      ${questionPanel(question, entry, Boolean(entry.confirmed), false)}
+      ${entry.confirmed ? correction(question, entry) : ''}
       <div class="exam-actions">
         <button data-jump="${attempt.index - 1}" ${attempt.index === 0 ? 'disabled' : ''}>← Anterior</button>
         <button data-action="flag" aria-pressed="${Boolean(entry.flag)}">${entry.flag ? '⚑ Marcada para revisar' : '⚐ Marcar para revisar'}</button>
-        <button data-action="clear" ${entry.answer == null ? 'disabled' : ''}>Limpar resposta</button>
+        ${entry.confirmed ? '' : `<button data-action="clear" ${entry.answer == null ? 'disabled' : ''}>Limpar resposta</button>`}
+        ${!entry.confirmed && hasAnswer(question) ? `<button class="primary" data-action="exam-confirm" ${entry.answer == null ? 'disabled' : ''}>Confirmar resposta</button>` : ''}
         <button data-jump="${attempt.index + 1}" ${attempt.index === attempt.ids.length - 1 ? 'disabled' : ''}>Próxima</button>
       </div>
     </section>`;
@@ -741,9 +746,14 @@ function questionAction(action) {
     entry.revealed = true;
   } else if (action === 'bank-retry') {
     state.bank[question.id] = { flag: entry.flag, answer: null, cuts: [] };
+  } else if (action === 'exam-confirm') {
+    if (entry.answer == null) { toast('Escolha uma alternativa antes de confirmar.'); return; }
+    entry.confirmed = true;
+    toast(entry.answer === question.answer ? 'Resposta correta.' : `Resposta incorreta. Gabarito: ${String.fromCharCode(65 + question.answer)}.`);
   } else if (action === 'flag') {
     entry.flag = !entry.flag;
   } else if (action === 'clear') {
+    if (entry.confirmed) return;
     entry.answer = null;
   }
   save();
@@ -809,6 +819,7 @@ main.addEventListener('click', event => {
     case 'backup-import': $('#backup-file').click(); break;
     case 'bank-reveal':
     case 'bank-retry':
+    case 'exam-confirm':
     case 'flag':
     case 'clear': questionAction(action); break;
   }
