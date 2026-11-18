@@ -11,7 +11,7 @@ const sourceById = new Map(sources.map(source => [source.id, source]));
 const studying = [['study', 'Estudado'], ['review', 'Revisado'], ['practice', 'Praticado']];
 const ui = {
   subject: 'all', week: 'all', search: '', bankSearch: '', bankPage: 1, origin: 'advanced',
-  examSize: 'n3', examOrigin: 'advanced', timer: true, timerMode: 'up', timerMinutes: 90
+  examSize: 'n3', examOrigin: 'advanced', timer: true, timerMode: 'up', timerMinutes: 80
 };
 const fresh = () => ({ version: 1, topics: {}, bank: {}, highlights: {}, active: null, history: [] });
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -33,7 +33,10 @@ const originLabel = question => {
   return question.advanced ? 'Inédita difícil' : 'Questão inédita';
 };
 const examDate = new Date('2026-11-23T07:00:00-04:00');
-const n3Format = { soi: 13, ham: 8, iesc: 8 };
+// Formato oficial da N3 (Afya 2026.2, 4º e 5º períodos): 20 itens, 0,75 ponto cada, 15 pontos, 1h20min.
+const n3Format = { soi: 8, ham: 6, iesc: 6 };
+const n3PointsPerItem = 0.75;
+const n3Minutes = 80;
 const hasAnswer = question => Number.isInteger(question.answer) && question.answer >= 0 && question.answer < (question.options?.length ?? 0);
 const option = (value, text, selected) => `<option value="${value}"${String(value) === String(selected) ? ' selected' : ''}>${text}</option>`;
 const planStatus = topic => state.topics[topic.id] ?? {};
@@ -177,7 +180,7 @@ function dashboard() {
   return `<section class="dash-head">
     <div>
       <h1>Visão geral</h1>
-      <p class="dash-status">A prova específica é em 23 de novembro e ${when}.</p>
+      <p class="dash-status">A prova específica é em 23 de novembro e ${when}. São 20 questões objetivas (8 SOI, 6 HAM e 6 IESC), 0,75 ponto cada, total de 15 pontos, em 1h20min.</p>
     </div>
     <div class="dash-actions"><a href="#banco" class="button">Resolver questões difíceis</a><a href="#plano" class="button ghost">Abrir checklist</a><a href="#simulado" class="button ghost">${state.active ? 'Retomar simulado' : 'Fazer simulado'}</a></div>
   </section>
@@ -415,15 +418,15 @@ function examHome() {
       <button class="primary" data-action="exam-resume">Retomar simulado</button></section>` : '')
     + `<section class="panel"><h2>Configurar simulado</h2>
       <div class="toolbar">
-        <label>Quantidade <select data-filter="examSize">${option('n3', 'Formato N3: 13 SOI, 8 HAM e 8 IESC', ui.examSize)}${[5, 10, 15, 20, 30, 60, 100].map(n => option(n, n, ui.examSize)).join('')}</select></label>
+        <label>Quantidade <select data-filter="examSize">${option('n3', 'Formato N3: 20 questões (8 SOI, 6 HAM e 6 IESC)', ui.examSize)}${[5, 10, 15, 20, 30, 60, 100].map(n => option(n, n, ui.examSize)).join('')}</select></label>
         ${fixed ? '' : `${subjectFilter()}${weekFilter()}<label>Questões <select data-filter="examOrigin">${option('advanced', 'Inéditas difíceis', ui.examOrigin)}${option('historical', 'Provas anteriores', ui.examOrigin)}${option('all', 'Banco completo', ui.examOrigin)}</select></label>`}
       </div>
       <p>${count ? `${count} questões nesta tentativa, de ${selected.length} objetivas disponíveis` : 'Nenhuma questão pontuável cadastrada neste recorte.'}</p>
-      ${fixed ? '<p class="tiny">Composição de treino baseada nas N1 específicas, com questões inéditas difíceis das três disciplinas. As discursivas ficam no banco.</p>' : ''}
+      ${fixed ? '<p class="tiny">Igual à N3 oficial da Afya 2026.2: 20 questões objetivas, 8 de SOI, 6 de HAM e 6 de IESC, cada uma valendo 0,75 ponto, total de 15 pontos, em 1h20min. Usa as inéditas difíceis; em HAM, 4 do bloco clínico e 2 do cirúrgico. Para treinar com o tempo da prova, marque o cronômetro regressivo de 80 min.</p>' : ''}
       <label><input type="checkbox" data-filter="timer" ${ui.timer ? 'checked' : ''}> Exibir cronômetro</label>
       ${ui.timer ? `<div class="toolbar" style="margin-top:12px">
         <label>Contagem do tempo <select data-filter="timerMode">${option('up', 'Crescente', ui.timerMode)}${option('down', 'Decrescente (regressiva)', ui.timerMode)}</select></label>
-        ${ui.timerMode === 'down' ? `<label>Duração <select data-filter="timerMinutes">${[15, 30, 45, 60, 90, 120, 150, 180].map(m => option(m, `${m} min`, ui.timerMinutes)).join('')}</select></label>` : ''}
+        ${ui.timerMode === 'down' ? `<label>Duração <select data-filter="timerMinutes">${[15, 30, 45, 60, 80, 90, 120, 150, 180].map(m => option(m, m === 80 ? '80 min (tempo da N3)' : `${m} min`, ui.timerMinutes)).join('')}</select></label>` : ''}
       </div>` : ''}
       <div class="exam-actions"><button type="button" class="primary" data-action="exam-start" ${!count ? 'disabled' : ''}>Iniciar simulado</button></div>
     </section>
@@ -452,15 +455,15 @@ function startExam() {
     selected = subjects.flatMap(subject => {
       const subset = pool.filter(q => q.subject === subject.id);
       if (subject.id !== 'ham') return selectByTopic(subset, n3Format[subject.id]);
-      return [...selectByTopic(subset.filter(q => topicById.get(q.topic).block === 'clinico'), 5),
-        ...selectByTopic(subset.filter(q => topicById.get(q.topic).block === 'cirurgico'), 3)];
+      return [...selectByTopic(subset.filter(q => topicById.get(q.topic).block === 'clinico'), 4),
+        ...selectByTopic(subset.filter(q => topicById.get(q.topic).block === 'cirurgico'), 2)];
     });
   } else {
     selected = ui.subject === 'all' ? subjects.map(subject => pool.find(q => q.subject === subject.id)).filter(Boolean) : [];
     selected.push(...pool.filter(q => !selected.includes(q)).slice(0, Number(ui.examSize) - selected.length));
   }
   const ids = pool.filter(q => selected.includes(q)).map(q => q.id);
-  state.active = { id: id(), ids, index: 0, entries: {}, elapsed: 0, runningSince: Date.now(), ...timerConfig };
+  state.active = { id: id(), ids, index: 0, entries: {}, elapsed: 0, runningSince: Date.now(), format: ui.examSize === 'n3' ? 'n3' : 'livre', ...timerConfig };
   save();
   try { if (localStorage.getItem(key + '-foco') === '1') document.body.classList.add('focus-mode'); } catch {}
   go('resolvendo');
@@ -502,7 +505,8 @@ function result(attempt) {
   const matches = score(attempt);
   const answered = attempt.ids.filter(qid => attempt.entries[qid]?.answer != null).length;
   return heading('Resultado do simulado', 'Revise o gabarito e a explicação de cada questão.')
-    + `<div class="metrics n3-metrics">${metric('Acertos', `${matches}/${attempt.ids.length}`, `${percent(matches, attempt.ids.length)}% da prova`)}
+    + `<div class="metrics n3-metrics n3-result">${metric('Acertos', `${matches}/${attempt.ids.length}`, `${percent(matches, attempt.ids.length)}% da prova`)}
+    ${metric(attempt.format === 'n3' ? 'Nota' : 'Nota na escala da N3', `${(attempt.format === 'n3' ? matches * n3PointsPerItem : matches / attempt.ids.length * 15).toFixed(2).replace('.', ',')}`, attempt.format === 'n3' ? 'de 15 pontos (0,75 por questão)' : 'proporcional, de 15 pontos')}
     ${metric('Em branco', attempt.ids.length - answered, 'Questões sem resposta')}
     ${metric('Tempo decorrido', timeLabel(attempt.elapsed), 'Minutos e segundos')}</div>
     <section class="panel"><h2>Desempenho por disciplina</h2><ul class="n3-links">
