@@ -337,7 +337,15 @@ function questionPanel(question, entry, revealed = false, showContext = true) {
     <p class="tiny q-hint">Selecione um trecho para destacar; clique no destaque para trocar a cor ou remover.${!revealed && question.options?.length ? ' Use a tesoura para riscar alternativas; clique de novo para restaurar.' : ''}</p>
     <p class="question-stem">${markText(question.stem, `q-${question.id}-stem`)}</p>
     ${question.image && safeLink(question.image) ? `<img class="n3-question-image" src="${esc(question.image)}" alt="${esc(question.imageAlt)}">` : ''}
-    ${options(question, entry, revealed)}`;
+    ${options(question, entry, revealed)}
+    ${questionTag(question)}`;
+}
+
+function questionTag(question) {
+  const topic = topicById.get(question.topic);
+  const block = topic?.block === 'cirurgico' ? ', cirúrgico' : topic?.block === 'clinico' ? ', clínico' : '';
+  const parts = [`${subjectById.get(question.subject)?.label ?? ''}${block}`, question.week == null ? 'Semana não indicada' : `Semana ${question.week}`, topic?.title].filter(Boolean);
+  return `<p class="q-tag">${parts.map(esc).join(' · ')}</p>`;
 }
 
 function correction(question, entry) {
