@@ -367,3 +367,244 @@ Assinale a alternativa correta.`, 3,
   const firstSoi = content.topics.findIndex(topic => topic.subject === 'soi');
   content.topics = [...rest.slice(0, firstSoi), ...soi, ...rest.slice(firstSoi)];
 }
+
+// ── Padrão Afya nas questões difíceis antigas de SOI ────────────────────
+// Caso clínico enxuto com exames, comando "Assinale a alternativa correta" e alternativas de uma frase.
+// O gabarito (letra) de cada questão foi mantido.
+const afyaRewrite = {
+  'n3a-dm1-01': [`Homem de 39 anos, professor, procura a UBS por sede intensa, noctúria e perda de 6 kg em quatro semanas. Tem IMC de 28 kg/m², pai com DM2 e história de tireoidite autoimune. Exames: glicemia casual de 312 mg/dL, HbA1c de 10,2%, bicarbonato de 23 mEq/L e cetonemia negativa. O peptídeo C, dosado com glicemia elevada, está abaixo da referência, e o anti-GAD é positivo em título alto. Ele iniciou metformina por conta própria.
+
+Assinale a alternativa correta.`, [
+    'Trata-se de DM2, pelo sobrepeso e pela história familiar, e a metformina isolada é suficiente.',
+    'Trata-se de diabetes autoimune de início no adulto, com reserva de insulina reduzida, e a insulinoterapia é prioritária.',
+    'Trata-se de diabetes monogênico (MODY), e a investigação genética deve preceder qualquer tratamento.',
+    'Trata-se de hiperglicemia transitória por glicotoxicidade, e a insulina pode ser adiada porque o bicarbonato é normal.'
+  ], 'Anti-GAD positivo e peptídeo C baixo durante hiperglicemia indicam diabetes autoimune com reserva reduzida. Peso e idade não definem o tipo de diabetes.',
+  ['Sobrepeso não exclui diabetes autoimune.', 'Correta: autoimunidade e reserva reduzida pedem insulina.', 'MODY tem autoanticorpos negativos e peptídeo C preservado.', 'O catabolismo e a autoimunidade não permitem adiar a insulina.']],
+
+  'n3a-dm1-02': [`Mulher de 20 anos com DM1 usa glargina à noite e lispro antes das refeições. Durante uma gastroenterite, come pouco e deixa de aplicar as duas insulinas por medo de hipoglicemia. Doze horas depois, a glicemia capilar é de 244 mg/dL e o beta-hidroxibutirato capilar, de 1,8 mmol/L. Está alerta, com náuseas, e consegue beber pequenos volumes.
+
+Sobre a orientação adequada, assinale a alternativa correta.`, [
+    'A insulina basal cobre o carboidrato das refeições e deve ficar suspensa enquanto ela não se alimentar.',
+    'A insulina rápida substitui a basal durante a doença, e a glargina só deve ser retomada quando as náuseas passarem.',
+    'A cetonemia de 1,8 mmol/L confirma cetoacidose diabética, o que dispensa a gasometria.',
+    'A insulina basal limita a produção hepática de glicose e a lipólise; deve ser mantida, com monitorização de glicose e cetonas e contato imediato com a equipe.'
+  ], 'Nos dias de doença, a necessidade de insulina pode aumentar mesmo sem comer. A basal nunca é suspensa no DM1. Cetonemia entre 1,5 e 3,0 mmol/L com sintomas pede contato com a equipe; CAD exige também acidose.',
+  ['A basal cobre o período entre as refeições.', 'Sem basal, a cetose progride.', 'CAD exige acidose e cetonemia ≥3,0 mmol/L.', 'Correta: manter a basal e monitorar.']],
+
+  'n3a-dm1-03': [`Adolescente de 15 anos, irmã de uma pessoa com DM1, participa de um programa de rastreamento. Está assintomática. Na primeira avaliação, a glicemia de jejum é 89 mg/dL e a HbA1c, 5,2%, com anti-GAD e anti-ZnT8 positivos, confirmados. Seis meses depois, a glicemia de jejum é 114 mg/dL, a HbA1c 5,8% e a glicemia de 2 horas no TOTG 168 mg/dL; os autoanticorpos continuam positivos.
+
+Assinale a alternativa correta.`, [
+    'Estágio 1 na primeira avaliação e estágio 2 na segunda, o que justifica seguimento especializado e educação sobre sinais de descompensação.',
+    'Ausência de doença na primeira avaliação e estágio 3 na segunda, pois glicemia de 2 horas acima de 140 mg/dL define diabetes.',
+    'Estágio 2 nas duas avaliações, porque dois autoanticorpos positivos já definem disglicemia.',
+    'Estágio 1 nas duas avaliações, porque sem sintomas não é possível classificar estágio mais avançado.'
+  ], 'Dois ou mais autoanticorpos com normoglicemia definem estágio 1. Autoanticorpos com disglicemia abaixo do limiar de diabetes definem estágio 2. Diabetes pelo TOTG exige 2 h ≥200 mg/dL.',
+  ['Correta: estágios 1 e 2.', 'O limiar de diabetes no TOTG é 200 mg/dL.', 'Estágio 2 exige disglicemia.', 'Os estágios 1 e 2 são pré-sintomáticos por definição.']],
+
+  'n3a-dm2-01': [`Mulher de 47 anos, assintomática, comparece à UBS para avaliar risco cardiovascular. Exame: cintura de 103 cm e PA de 146 x 92 mmHg em medidas repetidas. Exames: triglicerídeos de 216 mg/dL, HDL de 39 mg/dL, glicemia de jejum de 128 mg/dL e HbA1c de 6,0% na mesma amostra. No ano anterior, a glicemia de jejum foi de 112 mg/dL.
+
+Assinale a alternativa correta.`, [
+    'O diagnóstico de DM2 está confirmado pela soma de cintura, pressão, triglicerídeos e glicemia.',
+    'A glicemia de jejum deve ser desconsiderada, porque a HbA1c abaixo de 6,5% exclui diabetes.',
+    'A glicemia de jejum está acima do limiar de diabetes e deve ser repetida para confirmação; o perfil já indica alto risco cardiometabólico.',
+    'O diagnóstico de DM2 está confirmado, porque glicemia e HbA1c estão acima da normalidade.'
+  ], 'Glicemia de jejum ≥126 mg/dL em pessoa assintomática precisa de confirmação. A HbA1c de 6,0% indica risco, mas não atinge 6,5%. Ela preenche síndrome metabólica.',
+  ['Critérios de síndrome metabólica não diagnosticam diabetes.', 'Um exame normal não anula outro alterado.', 'Correta: repetir o exame alterado e tratar o risco.', 'Para confirmar na mesma amostra, os dois exames precisam estar acima dos limiares de diabetes.']],
+
+  'n3a-dm2-02': [`Homem de 55 anos com obesidade central e história familiar de DM2. Há cinco anos tinha glicemia de jejum de 93 mg/dL, com insulina elevada após sobrecarga oral de glicose. Hoje tem glicemias de jejum repetidas de 145 mg/dL, picos pós-prandiais maiores e HbA1c de 7,3%. O peptídeo C é detectável, e não houve cetose.
+
+Sobre a fisiopatologia, assinale a alternativa correta.`, [
+    'A resistência à insulina no músculo e no fígado foi compensada no início por hipersecreção da célula beta, que se tornou insuficiente com a progressão.',
+    'A resistência à insulina aumenta a captação muscular de glicose, e a hiperglicemia resulta da queda do glucagon.',
+    'Houve destruição autoimune das células beta, comprovada pela normoglicemia inicial.',
+    'O peptídeo C detectável exclui disfunção da célula beta, e a hiperglicemia se deve apenas à dieta.'
+  ], 'No DM2, a hiperinsulinemia compensa a resistência por anos. A hiperglicemia aparece quando a secreção, ainda presente, fica abaixo da demanda.',
+  ['Correta: resistência com falência relativa da célula beta.', 'A resistência reduz a captação, e o glucagon fica inapropriadamente alto.', 'Não há sinais de autoimunidade.', 'Secreção presente pode ser insuficiente.']],
+
+  'n3a-dm2-03': [`Homem de 61 anos com DM2 há oito anos usa metformina e tem HbA1c de 6,8%. Teve internação recente por insuficiência cardíaca com fração de ejeção reduzida. TFGe de 48 mL/min/1,73 m² e relação albumina/creatinina urinária de 280 mg/g em duas medidas. Não tem hipoglicemias.
+
+Sobre o tratamento, assinale a alternativa correta.`, [
+    'Acrescentar sulfonilureia, pois estimular a secreção de insulina confere proteção cardiovascular.',
+    'Manter apenas a metformina, porque a HbA1c está na meta e o benefício dos antidiabéticos se limita à glicemia.',
+    'Acrescentar pioglitazona, que melhora a sensibilidade à insulina e reduz a congestão na insuficiência cardíaca.',
+    'Acrescentar inibidor de SGLT2, que reduz a reabsorção proximal de glicose e sódio e diminui internação por insuficiência cardíaca e progressão renal, independentemente da HbA1c.'
+  ], 'Com insuficiência cardíaca ou doença renal, o iSGLT2 é indicado pelo benefício cardiorrenal, mesmo com a HbA1c na meta. Pioglitazona causa retenção hídrica.',
+  ['Sulfonilureias não têm benefício cardiorrenal e causam hipoglicemia.', 'O benefício cardiorrenal independe da HbA1c.', 'A pioglitazona piora a insuficiência cardíaca.', 'Correta: iSGLT2 pelo risco cardiorrenal.']],
+
+  'n3a-farmaco-01': [`Mulher de 72 anos com DM2 e TFGe de 41 mL/min/1,73 m² usa metformina em dose ajustada e gliclazida. Há duas semanas passou a pular o jantar por dificuldade para comprar alimentos. A filha a encontrou confusa de madrugada, com glicemia capilar de 43 mg/dL. A HbA1c recente é 6,3%. A família pede para acrescentar insulina por uma glicemia de 189 mg/dL após o almoço.
+
+Assinale a alternativa correta.`, [
+    'A metformina fecha canais de K-ATP e deve ser suspensa, mantendo-se a gliclazida.',
+    'A gliclazida estimula a secreção de insulina independentemente da refeição; com refeições omitidas e TFG reduzida, deve-se rever o esquema em vez de intensificá-lo.',
+    'A gliclazida só age quando a glicose está acima da meta, e o episódio se deve à toxicidade da metformina.',
+    'A gliclazida inibe a reabsorção renal de glicose, e a conduta é acrescentar insulina para a glicemia pós-prandial.'
+  ], 'Sulfonilureias fecham o canal de K-ATP e estimulam secreção mesmo sem refeição. Idosa frágil, com HbA1c baixa e hipoglicemia grave, precisa de menos intensidade e de abordagem do acesso a alimentos.',
+  ['Esse é o mecanismo da gliclazida, não da metformina.', 'Correta: mecanismo e vulnerabilidade.', 'Sulfonilureias agem mesmo com glicemia baixa.', 'Esse é o mecanismo dos iSGLT2.']],
+
+  'n3a-farmaco-02': [`Homem de 29 anos com DM1 usa insulina basal de longa ação à noite e análogo ultrarrápido nas refeições. O sensor mostra cerca de 105 mg/dL às 3 h e ao acordar. Nos dias de café com pão e suco, a glicose passa de 250 mg/dL duas horas depois e volta ao alvo antes do almoço. Ele aplica a dose rápida só depois de terminar de comer. Não esquece a basal.
+
+Assinale a alternativa correta.`, [
+    'O pico após o café indica falta de insulina basal, e a dose noturna deve ser aumentada.',
+    'A glicemia ao acordar indica excesso de insulina rápida no jantar, e o bolus do café deve ser suspenso.',
+    'A glicemia de jejum na meta indica basal adequada; deve-se rever o horário do bolus, aplicando-o antes de comer, e a contagem de carboidratos do café.',
+    'O análogo ultrarrápido não age no pico pós-prandial e deve ser substituído por mais insulina basal.'
+  ], 'Jejum e madrugada na meta mostram basal adequada. O problema é prandial: bolus tardio e cobertura insuficiente do carboidrato.',
+  ['Aumentar a basal causaria hipoglicemia noturna.', 'O jejum está na meta.', 'Correta: problema do bolus.', 'O ultrarrápido é feito para o pico da refeição.']],
+
+  'n3a-farmaco-03': [`Mulher de 44 anos com DM2 e obesidade usa metformina, sem hipoglicemias. HbA1c de 8,2% e TFGe de 82 mL/min/1,73 m². Trabalha em turnos, com refeições irregulares. Quer saber a diferença entre uma sulfonilureia e um agonista do receptor de GLP-1 quanto a peso, náuseas e risco de hipoglicemia.
+
+Assinale a alternativa correta.`, [
+    'O agonista do GLP-1 aumenta a secreção de insulina de forma dependente da glicose, aumenta a saciedade e pode causar náuseas; a sulfonilureia estimula a secreção mesmo com glicemia baixa e tem mais risco de hipoglicemia e ganho de peso.',
+    'O agonista do GLP-1 fecha o canal de K-ATP independentemente da glicemia, e a sulfonilureia retarda o esvaziamento gástrico.',
+    'O agonista do GLP-1 provoca glicosúria, e a sulfonilureia reduz a produção hepática de glicose sem estimular secreção.',
+    'O agonista do GLP-1 atua como insulina basal, e a sulfonilureia só estimula a secreção durante hiperglicemia.'
+  ], 'GLP-1: secreção dependente de glicose, menos glucagon, esvaziamento gástrico lento e saciedade. Sulfonilureia: K-ATP, secreção independente da glicose, hipoglicemia e ganho de peso, o que pesa em quem tem refeições irregulares.',
+  ['Correta: mecanismos e efeitos comparados.', 'Os mecanismos estão trocados.', 'Glicosúria é efeito do iSGLT2.', 'Os mecanismos estão invertidos.']],
+
+  'n3a-crises-01': [`Mulher de 54 anos com DM2 usa empagliflozina. Após um procedimento, ficou dois dias comendo pouco e chega com náuseas, dor abdominal e respiração profunda. Exames: glicemia de 172 mg/dL, pH venoso de 7,22, bicarbonato de 12 mEq/L, beta-hidroxibutirato de 4,9 mmol/L, lactato de 1,3 mmol/L e potássio de 4,4 mEq/L. Não ingeriu álcool.
+
+Assinale a alternativa correta.`, [
+    'Trata-se de cetose de jejum; suspender o iSGLT2 e oferecer glicose, sem necessidade de insulina.',
+    'Trata-se de CAD euglicêmica; iniciar insulina com soro sem glicose até a glicemia cair abaixo de 70 mg/dL.',
+    'Trata-se de acidose lática, e a cetonúria discreta afasta cetoacidose.',
+    'Trata-se de CAD euglicêmica associada ao iSGLT2; suspender o fármaco, hidratar, repor eletrólitos e usar insulina com glicose intravenosa até resolver a cetose.'
+  ], 'Cetonemia ≥3,0 mmol/L com acidose define CAD mesmo com glicemia abaixo de 250 mg/dL. Com iSGLT2, a glicose é dada junto da insulina para permitir tratar a cetose.',
+  ['Cetose de jejum não causa acidose desse grau.', 'Sem glicose, haverá hipoglicemia antes de resolver a cetose.', 'O lactato está normal; a fita urinária subestima o beta-hidroxibutirato.', 'Correta: CAD euglicêmica.']],
+
+  'n3a-crises-02': [`Homem de 24 anos com DM1 interrompeu a insulina durante uma infecção respiratória e evoluiu com vômitos. Exames: glicemia de 416 mg/dL, pH venoso de 7,17, beta-hidroxibutirato de 6,2 mmol/L e potássio de 3,1 mEq/L. O ECG mostra ondas T achatadas.
+
+Sobre a sequência do tratamento, assinale a alternativa correta.`, [
+    'Iniciar insulina imediatamente e repor potássio apenas se surgirem arritmias.',
+    'Administrar bicarbonato antes da hidratação para elevar o potássio sérico.',
+    'Iniciar hidratação e reposição de potássio, adiando a insulina até o potássio ficar acima de 3,5 mEq/L.',
+    'Tratar apenas com glicose intravenosa, sem insulina, até o potássio normalizar.'
+  ], 'O potássio corporal total está baixo na CAD. A insulina desloca potássio para dentro das células e pode causar hipocalemia grave; por isso, com K <3,5 mEq/L, repõe-se antes.',
+  ['Risco de hipocalemia grave e arritmia.', 'Bicarbonato reduz o potássio e não é a primeira medida.', 'Correta: hidratação, potássio e depois insulina.', 'Sem insulina, a cetose não se resolve.']],
+
+  'n3a-crises-03': [`Homem de 76 anos com DM2 chega após quatro dias de poliúria, febre e baixa ingestão. Está desidratado e desorientado. Exames: glicemia de 828 mg/dL, sódio de 145 mEq/L, bicarbonato de 21 mEq/L, pH de 7,36 e beta-hidroxibutirato de 1,1 mmol/L. Radiografia com pneumonia. Use osmolalidade efetiva = 2 × Na + glicose/18.
+
+Assinale a alternativa correta.`, [
+    'EHH com osmolalidade efetiva de cerca de 336 mOsm/kg; após expandir o volume, normalizar a glicemia nas primeiras horas.',
+    'EHH com osmolalidade efetiva de cerca de 336 mOsm/kg; repor volume, reduzir a osmolalidade de forma gradual e tratar a pneumonia.',
+    'Associação de CAD e EHH, pois a cetonemia de 1,1 mmol/L basta para definir CAD.',
+    'EHH com osmolalidade acima de 350 mOsm/kg; iniciar solução hipotônica antes da expansão volêmica.'
+  ], '2 × 145 + 828/18 = 336 mOsm/kg. Glicemia ≥600, sem acidose e com cetonemia <3,0 definem EHH. A correção deve ser gradual pelo risco de edema cerebral.',
+  ['Queda rápida da glicemia e da osmolalidade é perigosa.', 'Correta: EHH com correção gradual e tratamento do precipitante.', 'CAD exige cetonemia ≥3,0 mmol/L e acidose.', 'O cálculo dá cerca de 336, e o primeiro passo é a expansão com isotônico.']],
+
+  'n3a-cronicas-01': [`Mulher de 62 anos com DM2 há 13 anos tem TFGe de 77 mL/min/1,73 m². A relação albumina/creatinina urinária foi de 78 mg/g e, quatro meses depois, de 96 mg/g, sem infecção urinária, febre ou exercício intenso. A PA média é 148 x 86 mmHg.
+
+Assinale a alternativa correta.`, [
+    'A albuminúria persistente indica doença renal do diabetes mesmo com TFGe acima de 60; deve-se controlar a pressão, considerar IECA ou BRA e iSGLT2 e monitorar.',
+    'A TFGe acima de 60 exclui doença renal crônica, e a albuminúria é transitória.',
+    'A albuminúria indica doença renal avançada e encaminhamento imediato para diálise.',
+    'A albuminúria indica lesão tubular isolada, sem relação com a pressão arterial.'
+  ], 'Albuminúria entre 30 e 300 mg/g em duas de três amostras define dano renal, mesmo com TFGe preservada. A lesão é glomerular, e o controle pressórico com bloqueio do SRAA reduz a progressão.',
+  ['Correta: dano renal com função preservada.', 'Doença renal crônica pode existir com TFGe normal.', 'A função ainda está preservada.', 'A albuminúria reflete lesão da barreira glomerular.']],
+
+  'n3a-cronicas-02': [`Homem de 58 anos com DM2 e perda da sensibilidade ao monofilamento chega com pé esquerdo quente, avermelhado e edemaciado há cinco dias, após uma torção leve. Continuou caminhando porque sente pouca dor. Está afebril, com pulsos presentes e pele íntegra. A radiografia inicial não mostra fratura.
+
+Assinale a alternativa correta.`, [
+    'Trata-se de entorse ligamentar, e o apoio deve ser liberado conforme a tolerância.',
+    'Trata-se de celulite, e a conduta é antibiótico com retorno em 48 horas, sem retirar a carga.',
+    'Trata-se de neuroartropatia de Charcot ativa, e a imobilização deve aguardar a ressonância, mantendo o apoio.',
+    'Trata-se de neuroartropatia de Charcot ativa, e a conduta é imobilizar, retirar a carga e encaminhar, mesmo com radiografia inicial normal.'
+  ], 'Pé quente, edemaciado e eritematoso em neuropata, sem ferida e afebril, é Charcot ativo até prova em contrário. A radiografia inicial pode ser normal, e a descarga precoce evita deformidade.',
+  ['A neuropatia muda a interpretação da dor.', 'Sem porta de entrada nem febre, celulite é menos provável.', 'Retardar a descarga favorece deformidade.', 'Correta: Charcot ativo e descarga imediata.']],
+
+  'n3a-cronicas-03': [`Mulher com DM2 há 16 anos e seguimento irregular relata dificuldade para ler e, desde ontem, manchas móveis em um olho. HbA1c de 9,2%. A retinografia mostra hemorragias puntiformes, exsudatos duros perto da mácula e neovasos no disco óptico. A tomografia de coerência óptica mostra espessamento macular central.
+
+Assinale a alternativa correta.`, [
+    'O edema macular define retinopatia proliferativa, e a avaliação pode aguardar o próximo rastreio.',
+    'Os neovasos e o edema resultam do aumento da pressão intraocular e devem ser tratados como glaucoma.',
+    'O edema macular resulta da quebra da barreira vascular e os neovasos, da isquemia retiniana mediada por VEGF; a retinopatia é proliferativa e exige tratamento oftalmológico prioritário.',
+    'A retinopatia é não proliferativa, e a tomografia deve ser repetida depois de controlar a HbA1c.'
+  ], 'Neovasos definem a forma proliferativa. O edema macular pode ocorrer em qualquer fase. Manchas novas sugerem hemorragia vítrea. Tratamento: anti-VEGF e fotocoagulação.',
+  ['Quem define proliferativa são os neovasos.', 'O mecanismo é isquêmico e vascular.', 'Correta: dois mecanismos e prioridade.', 'Neovasos tornam a retinopatia proliferativa.']],
+
+  'n3a-tireoide-01': [`Mulher de 34 anos tem palpitações, perda de 7 kg, intolerância ao calor e diarreia. Exame: bócio difuso indolor, tremor fino e retração palpebral. TSH <0,01 mUI/L, T4 livre elevado e TRAb positivo. A avaliação oftalmológica confirma orbitopatia ativa moderada. Não está grávida.
+
+Sobre o tratamento, assinale a alternativa correta.`, [
+    'Indicar radioiodo de imediato, pois o controle da tireotoxicose previne a piora da orbitopatia.',
+    'Iniciar tionamida para reduzir a síntese hormonal e betabloqueador para os sintomas; a orbitopatia ativa pesa contra o radioiodo.',
+    'Usar betabloqueador isolado, que normaliza a função tireoidiana ao reduzir a conversão de T4.',
+    'Tratar como tireoidite destrutiva, apenas com sintomáticos, apesar do TRAb positivo.'
+  ], 'Na doença de Graves, o TRAb estimula o receptor de TSH. Tionamidas inibem a TPO; betabloqueadores tratam sintomas. Radioiodo pode agravar orbitopatia ativa.',
+  ['O radioiodo pode piorar a orbitopatia.', 'Correta: tionamida e betabloqueador.', 'Betabloqueador não controla a síntese.', 'TRAb positivo com bócio difuso indica Graves.']],
+
+  'n3a-tireoide-02': [`Mulher de 43 anos tem ansiedade, tremor e palpitações após três semanas de dor na região anterior do pescoço, irradiada para o ouvido, depois de uma infecção respiratória. A tireoide está dolorosa. TSH suprimido, T4 livre elevado, TRAb negativo, VHS elevada e captação de iodo muito baixa. Ela pergunta se precisa de metimazol.
+
+Assinale a alternativa correta.`, [
+    'Trata-se de doença de Graves, e o metimazol reduz o hormônio já liberado.',
+    'Trata-se de bócio nodular tóxico, e o tratamento é oferecer iodo.',
+    'Trata-se de hipotireoidismo, e deve-se iniciar levotiroxina.',
+    'Trata-se de tireoidite subaguda; tratar a dor e os sintomas com AINE e betabloqueador, pois a tionamida não age sobre o hormônio já liberado.'
+  ], 'A tireoidite subaguda libera hormônio pré-formado por destruição folicular, com captação baixa. Tionamidas bloqueiam síntese nova e não ajudam.',
+  ['Graves tem captação alta e TRAb positivo.', 'Bócio nodular tóxico tem captação alta e focal.', 'Há tireotoxicose.', 'Correta: tireoidite subaguda.']],
+
+  'n3a-tireoide-03': [`Mulher de 37 anos tem cansaço, intolerância ao frio e constipação. Teve hemorragia obstétrica grave há oito meses, não conseguiu amamentar e está em amenorreia desde então. PA de 92 x 60 mmHg. Exames: T4 livre de 0,5 ng/dL (baixo), TSH de 1,6 mUI/L, sódio baixo e cortisol matinal muito baixo.
+
+Assinale a alternativa correta.`, [
+    'Trata-se de hipotireoidismo central por hipopituitarismo; avaliar e repor o cortisol antes da levotiroxina e acompanhar pelo T4 livre.',
+    'Trata-se de hipotireoidismo subclínico primário, e o TSH normal dispensa avaliar o cortisol.',
+    'Trata-se de hipotireoidismo primário, e a levotiroxina deve ser iniciada e ajustada pelo TSH.',
+    'Trata-se de síndrome do eutireoidiano doente, sem relação com a hipófise.'
+  ], 'Síndrome de Sheehan: T4 livre baixo com TSH inapropriadamente normal indica causa central. Repor levotiroxina antes do cortisol pode precipitar crise adrenal.',
+  ['Correta: hipopituitarismo, cortisol primeiro.', 'No subclínico o T4 livre é normal.', 'No primário o TSH estaria alto.', 'A história obstétrica aponta hipopituitarismo.']],
+
+  'n3a-nodulos-01': [`Mulher de 57 anos nota aumento no pescoço e palpitações. A USG mostra nódulo sólido único de 2,5 cm, com margens regulares e sem linfonodos suspeitos. TSH de 0,05 mUI/L e T4 livre discretamente elevado. Não usou contraste iodado e não está grávida. Ela traz um pedido de PAAF feito só pelo tamanho do nódulo.
+
+Assinale a alternativa correta.`, [
+    'A PAAF deve ser feita de imediato, porque o nódulo tem mais de 2 cm.',
+    'Deve-se dosar tireoglobulina e, se estiver elevada, indicar cirurgia.',
+    'Deve-se fazer cintilografia; se o nódulo for hipercaptante (quente), a PAAF em geral é dispensada.',
+    'Deve-se repetir apenas a USG, porque o TSH baixo não muda a investigação.'
+  ], 'Com TSH baixo, a cintilografia procura nódulo autônomo. Nódulo quente raramente é maligno, e a PAAF em geral não é necessária.',
+  ['O TSH baixo muda a sequência.', 'Tireoglobulina não diagnostica nódulo.', 'Correta: cintilografia quando o TSH está baixo.', 'O TSH é o primeiro passo da investigação.']],
+
+  'n3a-nodulos-02': [`Homem de 46 anos tem nódulo tireoidiano de 2,8 cm, sólido, bem delimitado, sem linfonodos suspeitos, com TSH normal. A PAAF foi classificada como Bethesda IV (neoplasia folicular), com microfolículos abundantes e sem achados nucleares de carcinoma papilífero. Ele quer saber se tem câncer.
+
+Assinale a alternativa correta.`, [
+    'Bethesda IV não diferencia adenoma de carcinoma folicular, porque a distinção depende de invasão capsular ou vascular, vista só na histologia.',
+    'O padrão microfolicular abundante confirma carcinoma folicular.',
+    'As características ultrassonográficas favoráveis permitem reclassificar a citologia como benigna.',
+    'Uma nova PAAF com mais material permitirá ver a invasão da cápsula.'
+  ], 'A citologia mostra células e núcleos, mas não a cápsula. Por isso Bethesda IV tem risco intermediário (cerca de 30%) e precisa de histologia, testes moleculares ou cirurgia diagnóstica.',
+  ['Correta: limite da citologia.', 'Microfolículos ocorrem em adenoma e carcinoma.', 'A USG não muda a categoria citológica.', 'A agulha não avalia a cápsula.']],
+
+  'n3a-nodulos-03': [`Mulher de 41 anos tem nódulo tireoidiano sólido de 1,4 cm, acentuadamente hipoecoico, mais alto que largo e com microcalcificações. TSH normal. Há um linfonodo cervical lateral com área cística e perda do hilo. A classificação usada é o ACR TI-RADS.
+
+Assinale a alternativa correta.`, [
+    'Deve-se repetir a USG em dois anos, porque nódulos menores que 2 cm são de baixo risco.',
+    'Deve-se fazer cintilografia e dispensar a PAAF se a captação for normal.',
+    'Deve-se dosar tireoglobulina e iniciar levotiroxina para reduzir o nódulo.',
+    'Deve-se fazer PAAF do nódulo, que é TR5 e tem mais de 1 cm, e do linfonodo suspeito.'
+  ], 'Sólido (2) + acentuadamente hipoecoico (3) + mais alto que largo (3) + focos puntiformes (3) = 11 pontos, TR5: PAAF a partir de 1,0 cm. Linfonodo suspeito também deve ser puncionado.',
+  ['O tamanho isolado não define o risco.', 'Cintilografia só se o TSH estiver baixo.', 'Tireoglobulina não diagnostica nódulo, e a supressão não é indicada.', 'Correta: TR5 e linfonodo suspeito.']]
+};
+for (const [id, [stem, options, explanation, comments]] of Object.entries(afyaRewrite)) {
+  const question = content.questions.find(item => item.id === id);
+  if (!question) continue;
+  Object.assign(question, { stem, options, explanation, comments });
+}
+
+// Questões curtas sem caso clínico ganham uma vinheta, como nas provas Afya.
+const vignettes = {
+  'cronica-c': 'Mulher de 58 anos com DM2 há 18 anos tem neovasos no disco óptico na fundoscopia. Qual sequência explica a proliferação vascular na retinopatia diabética?',
+  'tireoide-b': 'Mulher de 30 anos tem bócio difuso, exoftalmia, TSH suprimido, T4 livre alto e TRAb positivo. Qual mecanismo explica o excesso hormonal nessa doença?',
+  'farmaco-dm-x07': 'Homem de 64 anos com DM2 inicia sitagliptina associada à metformina. Qual é o mecanismo dos inibidores da DPP-4 (gliptinas)?',
+  'danos-diabetes-x20': 'Homem de 59 anos com DM2 mal controlado há 15 anos tem retinopatia e albuminúria. Qual mecanismo bioquímico está envolvido na lesão microvascular do diabetes?',
+  'funcao-tireoide-x02': 'Mulher de 42 anos tem hipotireoidismo, bócio firme e anti-TPO positivo. Qual é o mecanismo principal de destruição da tireoide nessa doença?',
+  'funcao-tireoide-x16': 'Homem de 70 anos desenvolve hipotireoidismo três meses após iniciar amiodarona e fazer tomografia com contraste iodado. Qual efeito do excesso de iodo sobre a tireoide explica o quadro?',
+  'danos-diabetes-x23': 'Homem de 66 anos com DM2 há 20 anos chega com dispneia e sudorese, sem dor torácica, e o ECG mostra infarto agudo. Qual é a explicação para a apresentação atípica?'
+};
+for (const [id, stem] of Object.entries(vignettes)) {
+  const question = content.questions.find(item => item.id === id);
+  if (question) question.stem = stem;
+}
+
+// Questões fora dos objetivos das APGs: ficam no banco como complementares e saem dos simulados.
+for (const id of ['dm2-x23', 'nodulos-tireoide-h05', 'nodulos-tireoide-h07']) {
+  const question = content.questions.find(item => item.id === id);
+  if (question) question.complementary = true;
+}

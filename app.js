@@ -335,7 +335,7 @@ function options(question, entry, revealed) {
 }
 
 function questionPanel(question, entry, revealed = false, showContext = true) {
-  return `${showContext ? `<div class="question-meta">${badge(question)}<span class="chip">${originLabel(question)}</span>${question.archived ? '<span class="chip">Arquivo</span>' : ''}</div>` : ''}
+  return `${showContext ? `<div class="question-meta">${badge(question)}<span class="chip">${originLabel(question)}</span>${question.complementary ? '<span class="chip">Complementar, fora dos objetivos</span>' : ''}${question.archived ? '<span class="chip">Arquivo</span>' : ''}</div>` : ''}
     <p class="tiny q-hint">Selecione um trecho para destacar; clique no destaque para trocar a cor ou remover.${!revealed && question.options?.length ? ' Use a tesoura para riscar alternativas; clique de novo para restaurar.' : ''}</p>
     <p class="question-stem">${markText(question.stem, `q-${question.id}-stem`)}</p>
     ${question.image && safeLink(question.image) ? `<img class="n3-question-image" src="${esc(question.image)}" alt="${esc(question.imageAlt)}">` : ''}
@@ -415,7 +415,7 @@ function score(attempt, ids = attempt.ids) {
 }
 
 function examPool() {
-  return questions.filter(q => hasAnswer(q) && (ui.examSize === 'n3'
+  return questions.filter(q => hasAnswer(q) && !q.complementary && (ui.examSize === 'n3'
     ? q.advanced && !topicById.get(q.topic)?.outOfScope
     : inScope(q) && (ui.examOrigin === 'all' || (ui.examOrigin === 'advanced' ? q.advanced : q.origin === ui.examOrigin))));
 }
